@@ -12,18 +12,20 @@ $(function () {
   var $nextButton = $('#nextbutton');
   var $cycleButton = $('#cyclebutton');
   var cycleIntervalId;
-  var apiBaseUrl = 'http://powerbipaasapi.azurewebsites.net/api/reports';
+  var apiBaseUrl = 'http://localhost:1248/api/reports'; // 'http://powerbipaasapi.azurewebsites.net/api/reports';
 
   var localReportOverride = {
+    /*
     embedUrl: 'https://portal.analysis.windows-int.net/appTokenReportEmbed',
     id: 'c4d31ef0-7b34-4d80-9bcb-5974d1405572',
     accessToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ2ZXIiOiIwLjEuMCIsImF1ZCI6Imh0dHBzOi8vYW5hbHlzaXMud2luZG93cy5uZXQvcG93ZXJiaS9hcGkiLCJpc3MiOiJQb3dlckJJU0RLIiwidHlwZSI6ImVtYmVkIiwid2NuIjoiV2FsbGFjZSIsIndpZCI6IjUyMWNkYTJhLTRlZDItNDg5Ni1hYzA0LWM5YzM4MWRjMjUyYSIsInJpZCI6ImM0ZDMxZWYwLTdiMzQtNGQ4MC05YmNiLTU5NzRkMTQwNTU3MiIsIm5iZiI6MTQ2ODAxNTg5NSwiZXhwIjoxNDY4MDE5NDk1fQ.exh-qIpdEoa5lLxJleyGFli8ZvdNNyiDjVyHl9XBAiA'
+    */
   };
 
   /**
    * Basic Embed
    */
-  var staticReportId = '5dac7a4a-4452-46b3-99f6-a25915e0fe55';
+  var staticReportId = '205f4506-cfd7-4ea9-8a96-51b525475042'; //'5dac7a4a-4452-46b3-99f6-a25915e0fe55';
   var staticReportUrl = apiBaseUrl + '/' + staticReportId;
 
   fetch(staticReportUrl)
@@ -31,6 +33,7 @@ $(function () {
       return response.json();
     })
     .then(function (report) {
+      report.embedUrl = report.embedUrl.substring(0, report.embedUrl.indexOf('?')).replace("powerbi-df.analysis-df.windows.net", "portal.analysis.windows-int.net");
       var reportConfig = $.extend({
         type: 'report',
         settings: {
@@ -213,6 +216,7 @@ $(function () {
         return response.json();
       })
       .then(function (reportWithToken) {
+        reportWithToken.embedUrl = reportWithToken.embedUrl.substring(0, report.embedUrl.indexOf('?')).replace("powerbi-df.analysis-df.windows.net", "portal.analysis.windows-int.net");
         var reportConfig = $.extend({
             type: 'report',
             settings: {
