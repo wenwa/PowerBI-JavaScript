@@ -16,22 +16,22 @@ export const spyWpmp = {
     spyWpmp.postMessageSpy(message);
     return Promise.resolve(null);
   },
-    
+
   start: jasmine.createSpy("start"),
   stop: jasmine.createSpy("stop"),
 
   onMessageReceived(event) {
-    let message:any = event.data;
+    let message: any = event.data;
 
     const handled = spyWpmp.handlers.some(handler => {
-        if(handler.test(message)) {
-          Promise.resolve(handler.handle(message))
-            
-          return true;
-        }
-      });
+      if (handler.test(message)) {
+        Promise.resolve(handler.handle(message))
 
-    if(!handled) {
+        return true;
+      }
+    });
+
+    if (!handled) {
       throw Error(`nothing handled message`);
     }
   }

@@ -16,9 +16,11 @@ export interface IApp {
   validateVisual(visual: models.IVisual): Promise<models.IError[]>;
   // Filters
   getFilters(): Promise<models.IFilter[]>;
-  setFilters(filters: (models.IBasicFilter | models.IAdvancedFilter)[]): Promise<void>;
+  setFilters(filters: models.IFilter[]): Promise<void>;
   validateFilter(filter: models.IFilter): Promise<models.IError[]>;
   // Other
+  print(): Promise<void>;
+  refreshData(): Promise<void>;
   exportData(): Promise<void>;
 }
 
@@ -41,6 +43,8 @@ export const mockAppSpyObj = {
   setFilters: jasmine.createSpy("setFilters").and.returnValue(Promise.resolve(null)),
   validateFilter: jasmine.createSpy("validateFilter").and.callFake(models.validateFilter),
   // Other
+  print: jasmine.createSpy("print").and.returnValue(Promise.resolve(null)),
+  refreshData: jasmine.createSpy("refreshData").and.returnValue(Promise.resolve(null)),
   exportData: jasmine.createSpy("exportData").and.returnValue(Promise.resolve(null)),
 
   reset() {
@@ -56,7 +60,9 @@ export const mockAppSpyObj = {
     mockAppSpyObj.getFilters.calls.reset();
     mockAppSpyObj.setFilters.calls.reset();
     mockAppSpyObj.validateFilter.calls.reset();
-
+    mockAppSpyObj.print.calls.reset();
+    mockAppSpyObj.refreshData.calls.reset();
+    mockAppSpyObj.exportData.calls.reset();
   }
 };
 
